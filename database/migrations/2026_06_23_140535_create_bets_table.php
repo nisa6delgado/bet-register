@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('bets', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
+            $table->string('amount');
+            $table->string('odds');
+            $table->string('result')->nullable();
             $table->timestamps();
         });
     }
