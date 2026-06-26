@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Bet;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -72,7 +73,10 @@ class BetsTable extends TableWidget
                 //
             ])
             ->recordActions([
-                //
+                Action::make('edit')
+                    ->label('Editar')
+                    ->button()
+                    ->icon('heroicon-o-pencil-square'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
