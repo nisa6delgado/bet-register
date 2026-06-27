@@ -2,11 +2,13 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Bet;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Grid;
+use Filament\Notifications\Notification;
 use Filament\Pages\Dashboard as BaseDashboard;
+use Filament\Schemas\Components\Grid;
 use Filament\Support\Enums\Width;
 
 class Dashboard extends BaseDashboard
@@ -33,7 +35,22 @@ class Dashboard extends BaseDashboard
                                 ->label('Cuota')
                                 ->required(),
                         ])
-                ]),
+                ])
+                ->action(function ($data) {
+                    Bet::create([
+                        'description' => $data['description'],
+                        'amount' => $data['amount'],
+                        'odds' => $data['odds'],
+                        'result' => 'Abierto',
+                    ]);
+
+                    Notification::make()
+                        ->title('Apuesta creada exitosamente')
+                        ->success()
+                        ->send();
+
+                    return redirect('/');
+                }),
         ];
     }
 }
