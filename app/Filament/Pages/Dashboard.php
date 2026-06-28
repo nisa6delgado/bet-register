@@ -20,6 +20,7 @@ class Dashboard extends BaseDashboard
                 ->label('Registrar apuesta')
                 ->icon('heroicon-o-plus')
                 ->modalWidth(Width::Medium)
+                ->modalSubmitActionLabel('Registar apuesta')
                 ->form([
                     Textarea::make('description')
                         ->label('Descripción')

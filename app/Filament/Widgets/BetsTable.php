@@ -4,7 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Bet;
 use Filament\Actions\Action;
-use Filament\Actions\BulkActionGroup;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -43,7 +43,7 @@ class BetsTable extends TableWidget
                     ->html(),
 
                 TextColumn::make('amount')
-                    ->label('Monto')
+                    ->label('Monto apostado')
                     ->formatStateUsing(function ($state) {
                         return number_format($state, 2, ',', '.');
                     }),
@@ -71,19 +71,26 @@ class BetsTable extends TableWidget
             ->filters([
                 //
             ])
-            ->headerActions([
-                //
-            ])
             ->recordActions([
                 Action::make('edit')
                     ->label('Editar')
                     ->button()
                     ->icon('heroicon-o-pencil-square'),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    //
-                ]),
+
+                Action::make('delete')
+                    ->label('Eliminar')
+                    ->button()
+                    ->color('danger')
+                    ->icon('heroicon-o-trash')
+                    ->requiresConfirmation()
+                    ->action(function ($record) {
+                        $record->delete();
+
+                        Notification::make()
+                            ->title('Apuesta eliminada exitosamente')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->defaultSort('id', 'desc');
     }
