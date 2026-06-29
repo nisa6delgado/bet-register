@@ -4,7 +4,12 @@ namespace App\Filament\Widgets;
 
 use App\Models\Bet;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Grid;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -75,7 +80,50 @@ class BetsTable extends TableWidget
                 Action::make('edit')
                     ->label('Editar')
                     ->button()
-                    ->icon('heroicon-o-pencil-square'),
+                    ->icon('heroicon-o-pencil-square')
+                    ->modalWidth(Width::Medium)
+                    ->modalSubmitActionLabel('Guardar cambios')
+                    ->fillForm(fn ($record): array => [
+                        'description' => $record->description,
+                        'amount' => $record->amount,
+                        'odds' => $record->odds,
+                        'result' => $record->result,
+                    ])
+                    ->form([
+                        Textarea::make('description')
+                            ->label('Descripción')
+                            ->required(),
+
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('amount')
+                                    ->label('Monto')
+                                    ->required(),
+
+                                TextInput::make('odds')
+                                    ->label('Cuota')
+                                    ->required(),
+                            ]),
+
+                        Grid::make(2)
+                            ->schema([
+                                Select::make('result')
+                                    ->label('Resultado')
+                                    ->options([
+                                        'Abierto' => 'Abierto',
+                                        'Ganado' => 'Ganado',
+                                        'Perdido' => 'Perdido',
+                                    ])
+                            ])
+                    ])
+                    ->action(function ($record, array $data): void {
+                        $record->update($data);
+
+                        Notification::make()
+                            ->title('Apuesta editada exitosamente')
+                            ->success()
+                            ->send();
+                    }),
 
                 Action::make('delete')
                     ->label('Eliminar')

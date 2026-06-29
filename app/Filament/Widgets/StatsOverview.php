@@ -13,17 +13,24 @@ class StatsOverview extends StatsOverviewWidget
     protected function getStats(): array
     {
         $wagared = 0;
+        $earned = 0;
 
         $bets = Bet::get();
 
         foreach ($bets as $bet) {
             $wagared += $bet->amount;
+
+            if ($bet->result == 'Ganado') {
+                $earned += ($bet->amount * $bet->odds) - $bet->amount;
+            }
         }
 
         $wagared = number_format($wagared, 2, ',', '.');
+        $earned = number_format($earned, 2, ',', '.');
 
         return [
             Stat::make('Dinero apostado', $wagared),
+            Stat::make('Dinero ganado', $earned),
         ];
     }
 }
