@@ -26,6 +26,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('/')
             ->login()
+            ->favicon('/img/favicon.png')
+            ->brandLogo('/img/favicon.png')
             ->sidebarWidth('0px')
             ->colors([
                 'primary' => Color::Neutral,

@@ -14,6 +14,7 @@ class StatsOverview extends StatsOverviewWidget
     {
         $wagared = 0;
         $earned = 0;
+        $lost = 0;
 
         $bets = Bet::get();
 
@@ -23,14 +24,20 @@ class StatsOverview extends StatsOverviewWidget
             if ($bet->result == 'Ganado') {
                 $earned += ($bet->amount * $bet->odds) - $bet->amount;
             }
+
+            if ($bet->result == 'Perdido') {
+                $lost += $bet->amount;
+            }
         }
 
         $wagared = number_format($wagared, 2, ',', '.');
         $earned = number_format($earned, 2, ',', '.');
+        $lost = number_format($lost, 2, ',', '.');
 
         return [
             Stat::make('Dinero apostado', $wagared),
             Stat::make('Dinero ganado', $earned),
+            Stat::make('Dinero perdido', $lost),
         ];
     }
 }
