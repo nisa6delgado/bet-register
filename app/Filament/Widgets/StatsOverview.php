@@ -30,6 +30,8 @@ class StatsOverview extends StatsOverviewWidget
             }
         }
 
+
+        $balance = number_format($earned - $lost, 2, ',', '.');
         $wagared = number_format($wagared, 2, ',', '.');
         $earned = number_format($earned, 2, ',', '.');
         $lost = number_format($lost, 2, ',', '.');
@@ -38,6 +40,7 @@ class StatsOverview extends StatsOverviewWidget
             Stat::make('Dinero apostado', $wagared),
             Stat::make('Dinero ganado', $earned),
             Stat::make('Dinero perdido', $lost),
+            Stat::make('Balance', $balance),
         ];
     }
 }
