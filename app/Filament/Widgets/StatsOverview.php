@@ -10,6 +10,14 @@ class StatsOverview extends StatsOverviewWidget
 {
     protected static ?int $sort = 0;
 
+    protected function getColumns(): int | array
+    {
+        return [
+            'md' => 2,
+            'xl' => 4,
+        ];
+    }
+
     protected function getStats(): array
     {
         $wagared = 0;
@@ -41,6 +49,8 @@ class StatsOverview extends StatsOverviewWidget
             Stat::make('Dinero ganado', $earned),
             Stat::make('Dinero perdido', $lost),
             Stat::make('Balance', $balance),
+
+            Stat::make('Apuestas realizadas', Bet::count()),
         ];
     }
 }

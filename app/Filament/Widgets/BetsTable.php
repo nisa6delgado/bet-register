@@ -40,7 +40,7 @@ class BetsTable extends TableWidget
 
                 TextColumn::make('created_at')
                     ->label('Fecha y hora')
-                    ->datetime('d/m/Y h:iA'),
+                    ->datetime('d/m/Y h:i A'),
 
                 TextColumn::make('description')
                     ->label('Descripción')
