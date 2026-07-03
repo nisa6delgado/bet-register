@@ -21,6 +21,7 @@ class StatsOverview extends StatsOverviewWidget
     protected function getStats(): array
     {
         $wagared = 0;
+        $winning = 0;
         $earned = 0;
         $lost = 0;
 
@@ -31,6 +32,7 @@ class StatsOverview extends StatsOverviewWidget
 
             if ($bet->result == 'Ganado') {
                 $earned += ($bet->amount * $bet->odds) - $bet->amount;
+                $winning += 1;
             }
 
             if ($bet->result == 'Perdido') {
@@ -44,13 +46,16 @@ class StatsOverview extends StatsOverviewWidget
         $earned = number_format($earned, 2, ',', '.');
         $lost = number_format($lost, 2, ',', '.');
 
+        $total = count($bets);
+
         return [
             Stat::make('Dinero apostado', $wagared),
             Stat::make('Dinero ganado', $earned),
             Stat::make('Dinero perdido', $lost),
             Stat::make('Balance', $balance),
 
-            Stat::make('Apuestas realizadas', Bet::count()),
+            Stat::make('Apuestas realizadas', $total),
+            Stat::make('Apuestas ganadas', $winning),
         ];
     }
 }
