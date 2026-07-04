@@ -42,7 +42,8 @@ class BetsTable extends TableWidget
 
                 TextColumn::make('created_at')
                     ->label('Fecha y hora')
-                    ->datetime('d/m/Y h:i A'),
+                    ->datetime('d/m/Y h:i A')
+                    ->sortable(),
 
                 TextColumn::make('description')
                     ->label('Descripción')
@@ -51,15 +52,18 @@ class BetsTable extends TableWidget
 
                 TextColumn::make('amount')
                     ->label('Monto apostado')
+                    ->sortable()
                     ->formatStateUsing(function ($state) {
                         return number_format($state, 2, ',', '.');
                     }),
 
                 TextColumn::make('odds')
-                    ->label('Cuota'),
+                    ->label('Cuota')
+                    ->sortable(),
 
                 TextColumn::make('revenue')
                     ->label('Ganancia')
+                    ->sortable()
                     ->getStateUsing(function ($record) {
                         if ($record->result == 'Ganado') {
                             return number_format($record->amount * $record->odds, 2);

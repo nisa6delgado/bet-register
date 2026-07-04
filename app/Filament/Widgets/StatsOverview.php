@@ -23,6 +23,7 @@ class StatsOverview extends StatsOverviewWidget
         $wagared = 0;
         $winning = 0;
         $earned = 0;
+        $losses = 0;
         $lost = 0;
 
         $bets = Bet::get();
@@ -36,26 +37,28 @@ class StatsOverview extends StatsOverviewWidget
             }
 
             if ($bet->result == 'Perdido') {
-                $lost += $bet->amount;
+                $losses += $bet->amount;
+                $lost += 1;
             }
         }
 
 
-        $balance = number_format($earned - $lost, 2, ',', '.');
+        $balance = number_format($earned - $losses, 2, ',', '.');
         $wagared = number_format($wagared, 2, ',', '.');
         $earned = number_format($earned, 2, ',', '.');
-        $lost = number_format($lost, 2, ',', '.');
+        $losses = number_format($losses, 2, ',', '.');
 
         $total = count($bets);
 
         return [
             Stat::make('Dinero apostado', $wagared),
             Stat::make('Dinero ganado', $earned),
-            Stat::make('Dinero perdido', $lost),
+            Stat::make('Dinero perdido', $losses),
             Stat::make('Balance', $balance),
 
             Stat::make('Apuestas realizadas', $total),
             Stat::make('Apuestas ganadas', $winning),
+            Stat::make('Apuestas perdidas', $lost),
         ];
     }
 }
