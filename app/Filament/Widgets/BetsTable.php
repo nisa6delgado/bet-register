@@ -47,6 +47,7 @@ class BetsTable extends TableWidget
 
                 TextColumn::make('description')
                     ->label('Descripción')
+                    ->searchable()
                     ->formatStateUsing(fn (string $state): string => nl2br(e($state)))
                     ->html(),
 
@@ -59,6 +60,7 @@ class BetsTable extends TableWidget
 
                 TextColumn::make('odds')
                     ->label('Cuota')
+                    ->searchable()
                     ->sortable(),
 
                 TextColumn::make('revenue')

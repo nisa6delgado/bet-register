@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->favicon('/img/favicon.png')
             ->brandLogo('/img/brand.png')
+            ->brandLogoHeight('3rem')
             ->sidebarWidth('0px')
             ->maxContentWidth(Width::MaxContent)
             ->colors([
