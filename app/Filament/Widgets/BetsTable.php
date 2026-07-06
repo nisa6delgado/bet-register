@@ -146,6 +146,8 @@ class BetsTable extends TableWidget
                             ->title('Apuesta editada exitosamente')
                             ->success()
                             ->send();
+
+                        redirect('/');
                     }),
 
                 Action::make('delete')
@@ -161,6 +163,8 @@ class BetsTable extends TableWidget
                             ->title('Apuesta eliminada exitosamente')
                             ->success()
                             ->send();
+
+                        redirect('/');
                     }),
             ])
             ->defaultSort('id', 'desc');
