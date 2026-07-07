@@ -15,6 +15,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
@@ -97,7 +98,15 @@ class BetsTable extends TableWidget
                                 $data['until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
-                    })
+                    }),
+
+                SelectFilter::make('result')
+                    ->label('Resultado')
+                    ->options([
+                        'Abierto' => 'Abierto',
+                        'Ganado' => 'Ganado',
+                        'Perdido' => 'Perdido',
+                    ])
             ])
             ->recordActions([
                 Action::make('edit')
