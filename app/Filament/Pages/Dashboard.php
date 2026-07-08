@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Bet;
 use Filament\Actions\Action;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -16,6 +17,28 @@ class Dashboard extends BaseDashboard
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('filter')
+                ->label('Filtros')
+                ->icon('heroicon-o-funnel')
+                ->modalWidth(Width::Medium)
+                ->modalSubmitActionLabel('Filtrar')
+                ->form([
+                    Grid::make(2)
+                        ->schema([
+                            DatePicker::make('from')
+                                ->label('Desde')
+                                ->date()
+                                ->required(),
+
+                            DatePicker::make('until')
+                                ->label('Hasta')
+                                ->required(),
+                        ])
+                ])
+                ->action(function ($data) {
+                    return redirect('?from=' . $data['from'] . '&until=' . $data['until']);
+                }),
+
             Action::make('create')
                 ->label('Registrar apuesta')
                 ->icon('heroicon-o-plus')

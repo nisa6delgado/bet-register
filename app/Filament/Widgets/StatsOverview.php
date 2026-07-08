@@ -20,13 +20,23 @@ class StatsOverview extends StatsOverviewWidget
 
     protected function getStats(): array
     {
+        $from = request()->get('from');
+        $until = request()->get('until');
+        
         $wagared = 0;
         $winning = 0;
         $earned = 0;
         $losses = 0;
         $lost = 0;
 
-        $bets = Bet::get();
+        $bets = Bet::query()
+            ->when($from, function ($query, $from) {
+                return $query->whereDate('created_at', $from);
+            })
+            ->when($until, function ($query, $until) {
+                return $query->whereDate('created_at', $until);
+            })
+            ->get();
 
         foreach ($bets as $bet) {
             $wagared += $bet->amount;
