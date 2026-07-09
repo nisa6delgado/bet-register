@@ -53,10 +53,10 @@ class BetsTable extends TableWidget
                     ->html(),
 
                 TextColumn::make('amount')
-                    ->label('Monto apostado')
+                    ->label('Apostado')
                     ->sortable()
                     ->formatStateUsing(function ($state) {
-                        return number_format($state, 2, ',', '.');
+                        return number_format($state, 2);
                     }),
 
                 TextColumn::make('odds')
@@ -71,6 +71,8 @@ class BetsTable extends TableWidget
                         if ($record->result == 'Ganado') {
                             return number_format($record->amount * $record->odds, 2);
                         }
+
+                        return 0.00;
                     }),
 
                 BadgeColumn::make('result')

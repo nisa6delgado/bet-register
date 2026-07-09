@@ -52,10 +52,10 @@ class StatsOverview extends StatsOverviewWidget
             }
         }
 
-        $balance = number_format($earned - $losses, 2, ',', '.');
-        $wagared = number_format($wagared, 2, ',', '.');
-        $earned = number_format($earned, 2, ',', '.');
-        $losses = number_format($losses, 2, ',', '.');
+        $balance = number_format($earned - $losses, 2);
+        $wagared = number_format($wagared, 2);
+        $earned = number_format($earned, 2);
+        $losses = number_format($losses, 2);
 
         $total = count($bets);
 
@@ -64,9 +64,9 @@ class StatsOverview extends StatsOverviewWidget
         $rate = $rate . '%';
 
         return [
-            Stat::make('Dinero apostado', $wagared),
-            Stat::make('Dinero ganado', $earned),
-            Stat::make('Dinero perdido', $losses),
+            Stat::make('Unidades apostadas', $wagared),
+            Stat::make('Unidades ganadas', $earned),
+            Stat::make('Unidades perdidas', $losses),
             Stat::make('Balance', $balance),
 
             Stat::make('Apuestas realizadas', $total),
