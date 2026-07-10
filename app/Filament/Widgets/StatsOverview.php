@@ -5,10 +5,17 @@ namespace App\Filament\Widgets;
 use App\Models\Bet;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Livewire\Attributes\Url;
 
 class StatsOverview extends StatsOverviewWidget
 {
     protected static ?int $sort = 0;
+
+    #[Url]
+    public ?string $from = null;
+
+    #[Url]
+    public ?string $until = null;
 
     protected function getColumns(): int | array
     {
@@ -20,8 +27,8 @@ class StatsOverview extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $from = request()->get('from');
-        $until = request()->get('until');
+        $from = $this->from;
+        $until = $this->until;
         
         $wagared = 0;
         $winning = 0;
@@ -31,10 +38,10 @@ class StatsOverview extends StatsOverviewWidget
 
         $bets = Bet::query()
             ->when($from, function ($query, $from) {
-                return $query->whereDate('created_at', $from);
+                return $query->whereDate('created_at', '>=', $from);
             })
             ->when($until, function ($query, $until) {
-                return $query->whereDate('created_at', $until);
+                return $query->whereDate('created_at', '<=', $until);
             })
             ->get();
 

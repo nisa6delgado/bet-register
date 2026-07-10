@@ -11,9 +11,16 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Schemas\Components\Grid;
 use Filament\Support\Enums\Width;
+use Livewire\Attributes\Url;
 
 class Dashboard extends BaseDashboard
 {
+    #[Url]
+    public ?string $from = null;
+
+    #[Url]
+    public ?string $until = null;
+
     protected function getHeaderActions(): array
     {
         return [
@@ -22,6 +29,10 @@ class Dashboard extends BaseDashboard
                 ->icon('heroicon-o-funnel')
                 ->modalWidth(Width::Medium)
                 ->modalSubmitActionLabel('Filtrar')
+                ->fillForm(fn () => [
+                    'from' => $this->from,
+                    'until' => $this->until,
+                ])
                 ->form([
                     Grid::make(2)
                         ->schema([
