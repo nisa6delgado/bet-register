@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Bet;
+use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
@@ -30,8 +31,8 @@ class Dashboard extends BaseDashboard
                 ->modalWidth(Width::Medium)
                 ->modalSubmitActionLabel('Filtrar')
                 ->fillForm(fn () => [
-                    'from' => $this->from,
-                    'until' => $this->until,
+                    'from' => $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d'),
+                    'until' => $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d'),
                 ])
                 ->form([
                     Grid::make(2)

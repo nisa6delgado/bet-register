@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Bet;
+use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Livewire\Attributes\Url;
@@ -27,8 +28,8 @@ class StatsOverview extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $from = $this->from;
-        $until = $this->until;
+        $from = $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d');
+        $until = $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d');
         
         $wagared = 0;
         $winning = 0;
@@ -37,12 +38,8 @@ class StatsOverview extends StatsOverviewWidget
         $lost = 0;
 
         $bets = Bet::query()
-            ->when($from, function ($query, $from) {
-                return $query->whereDate('created_at', '>=', $from);
-            })
-            ->when($until, function ($query, $until) {
-                return $query->whereDate('created_at', '<=', $until);
-            })
+            ->whereDate('created_at', '>=', $from)
+            ->whereDate('created_at', '<=', $until)
             ->get();
 
         foreach ($bets as $bet) {

@@ -4,7 +4,6 @@ namespace App\Filament\Widgets;
 
 use App\Models\Bet;
 use Filament\Actions\Action;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -14,8 +13,6 @@ use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
@@ -83,32 +80,6 @@ class BetsTable extends TableWidget
                         'info' => 'Nulo',
                         'primary' => 'Abierto',
                     ]),
-            ])
-            ->filters([
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('from')->label('Desde'),
-                        DatePicker::make('until')->label('Hasta'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    }),
-
-                SelectFilter::make('result')
-                    ->label('Resultado')
-                    ->options([
-                        'Abierto' => 'Abierto',
-                        'Ganado' => 'Ganado',
-                        'Perdido' => 'Perdido',
-                    ])
             ])
             ->recordActions([
                 Action::make('edit')
