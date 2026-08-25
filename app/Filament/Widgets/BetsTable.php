@@ -103,10 +103,12 @@ class BetsTable extends TableWidget
                             ->schema([
                                 TextInput::make('amount')
                                     ->label('Monto')
+                                    ->numeric()
                                     ->required(),
 
                                 TextInput::make('odds')
                                     ->label('Cuota')
+                                    ->numeric()
                                     ->required(),
                             ]),
 
@@ -118,7 +120,9 @@ class BetsTable extends TableWidget
                                         'Abierto' => 'Abierto',
                                         'Ganado' => 'Ganado',
                                         'Perdido' => 'Perdido',
-                                    ])
+                                        'Nulo' => 'Nulo',
+                                        'Retirado' => 'Retirado',
+                                    ]),
                             ])
                     ])
                     ->action(function ($record, array $data): void {

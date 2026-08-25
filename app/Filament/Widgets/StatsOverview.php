@@ -50,6 +50,11 @@ class StatsOverview extends StatsOverviewWidget
                 $winning += 1;
             }
 
+            if ($bet->result == 'Nulo' || $bet->result == 'Retirado') {
+                $earned += $bet->revenue - $bet->amount;
+                $winning += 1;
+            }
+
             if ($bet->result == 'Perdido') {
                 $losses += $bet->amount;
                 $lost += 1;

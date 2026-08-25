@@ -65,10 +65,12 @@ class Dashboard extends BaseDashboard
                         ->schema([
                             TextInput::make('amount')
                                 ->label('Monto')
+                                ->numeric()
                                 ->required(),
 
                             TextInput::make('odds')
                                 ->label('Cuota')
+                                ->numeric()
                                 ->required(),
                         ])
                 ])
