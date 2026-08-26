@@ -36,6 +36,7 @@ class StatsOverview extends StatsOverviewWidget
         $earned = 0;
         $losses = 0;
         $lost = 0;
+        $void = 0;
 
         $bets = Bet::query()
             ->whereDate('created_at', '>=', $from)
@@ -50,9 +51,9 @@ class StatsOverview extends StatsOverviewWidget
                 $winning += 1;
             }
 
-            if ($bet->result == 'Nulo' || $bet->result == 'Retirado') {
+            if ($bet->result == 'Nulo') {
                 $earned += $bet->revenue - $bet->amount;
-                $winning += 1;
+                $void += 1;
             }
 
             if ($bet->result == 'Perdido') {
@@ -81,6 +82,7 @@ class StatsOverview extends StatsOverviewWidget
             Stat::make('Apuestas realizadas', $total),
             Stat::make('Apuestas ganadas', $winning),
             Stat::make('Apuestas perdidas', $lost),
+            Stat::make('Apuestas nulas', $void),
             Stat::make('Porcentaje de acierto', $rate),
         ];
     }

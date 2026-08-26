@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('amount');
             $table->string('odds');
-            $table->string('result')->nullable();
+            $table->string('result');
             $table->timestamps();
         });
     }

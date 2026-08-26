@@ -104,11 +104,13 @@ class BetsTable extends TableWidget
                                 TextInput::make('amount')
                                     ->label('Monto')
                                     ->numeric()
+                                    ->minValue(0.01)
                                     ->required(),
 
                                 TextInput::make('odds')
                                     ->label('Cuota')
                                     ->numeric()
+                                    ->minValue(1.01)
                                     ->required(),
                             ]),
 
@@ -121,7 +123,6 @@ class BetsTable extends TableWidget
                                         'Ganado' => 'Ganado',
                                         'Perdido' => 'Perdido',
                                         'Nulo' => 'Nulo',
-                                        'Retirado' => 'Retirado',
                                     ]),
                             ])
                     ])
