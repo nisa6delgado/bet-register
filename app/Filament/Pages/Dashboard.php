@@ -6,6 +6,7 @@ use App\Models\Bet;
 use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -33,6 +34,7 @@ class Dashboard extends BaseDashboard
                 ->fillForm(fn () => [
                     'from' => $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d'),
                     'until' => $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d'),
+                    'result' => 'Todos',
                 ])
                 ->form([
                     Grid::make(2)
@@ -45,7 +47,20 @@ class Dashboard extends BaseDashboard
                             DatePicker::make('until')
                                 ->label('Hasta')
                                 ->required(),
-                        ])
+                        ]),
+
+                    Grid::make(2)
+                        ->schema([
+                            Select::make('result')
+                                ->label('Resultado')
+                                ->options([
+                                    'Todos' => 'Todos',
+                                    'Abierto' => 'Abierto',
+                                    'Ganado' => 'Ganado',
+                                    'Perdido' => 'Perdido',
+                                    'Nulo' => 'Nulo',
+                                ]),
+                        ]),
                 ])
                 ->action(function ($data) {
                     return redirect('?from=' . $data['from'] . '&until=' . $data['until']);

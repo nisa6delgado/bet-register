@@ -63,13 +63,12 @@ class BetsTable extends TableWidget
 
                 TextColumn::make('revenue')
                     ->label('Ganancia')
-                    ->sortable()
                     ->getStateUsing(function ($record) {
                         if ($record->result == 'Ganado') {
                             return number_format($record->amount * $record->odds, 2);
                         }
 
-                        return 0.00;
+                        return '-';
                     }),
 
                 BadgeColumn::make('result')
