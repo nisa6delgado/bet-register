@@ -58,7 +58,6 @@ class Dashboard extends BaseDashboard
                                     'Abierto' => 'Abierto',
                                     'Ganado' => 'Ganado',
                                     'Perdido' => 'Perdido',
-                                    'Nulo' => 'Nulo',
                                 ]),
                         ]),
                 ])

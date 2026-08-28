@@ -22,7 +22,7 @@ class StatsOverview extends StatsOverviewWidget
     {
         return [
             'md' => 1,
-            'xl' => 20,
+            'xl' => 4,
         ];
     }
 
@@ -36,7 +36,6 @@ class StatsOverview extends StatsOverviewWidget
         $earned = 0;
         $losses = 0;
         $lost = 0;
-        $void = 0;
 
         $bets = Bet::query()
             ->whereDate('created_at', '>=', $from)
@@ -49,11 +48,6 @@ class StatsOverview extends StatsOverviewWidget
             if ($bet->result == 'Ganado') {
                 $earned += ($bet->amount * $bet->odds) - $bet->amount;
                 $winning += 1;
-            }
-
-            if ($bet->result == 'Nulo') {
-                $earned += $bet->revenue - $bet->amount;
-                $void += 1;
             }
 
             if ($bet->result == 'Perdido') {
@@ -74,32 +68,15 @@ class StatsOverview extends StatsOverviewWidget
         $rate = $rate . '%';
 
         return [
-            Stat::make('Unidades apostadas', $wagared)
-                ->columnSpan(5),
+            Stat::make('Unidades apostadas', $wagared),
+            Stat::make('Unidades ganadas', $earned),
+            Stat::make('Unidades perdidas', $losses),
+            Stat::make('Balance', $balance),
 
-            Stat::make('Unidades ganadas', $earned)
-                ->columnSpan(5),
-
-            Stat::make('Unidades perdidas', $losses)
-                ->columnSpan(5),
-
-            Stat::make('Balance', $balance)
-                ->columnSpan(5),
-
-            Stat::make('Apuestas realizadas', $total)
-                ->columnSpan(4),
-
-            Stat::make('Apuestas ganadas', $winning)
-                ->columnSpan(4),
-
-            Stat::make('Apuestas perdidas', $lost)
-                ->columnSpan(4),
-
-            Stat::make('Apuestas nulas', $void)
-                ->columnSpan(4),
-
-            Stat::make('Porcentaje de acierto', $rate)
-                ->columnSpan(4),
+            Stat::make('Apuestas realizadas', $total),
+            Stat::make('Apuestas ganadas', $winning),
+            Stat::make('Apuestas perdidas', $lost),
+            Stat::make('Porcentaje de acierto', $rate),
 
         ];
     }

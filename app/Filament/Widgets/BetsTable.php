@@ -76,7 +76,6 @@ class BetsTable extends TableWidget
                     ->colors([
                         'success' => 'Ganado',
                         'danger' => 'Perdido',
-                        'info' => 'Nulo',
                         'primary' => 'Abierto',
                     ]),
             ])
@@ -121,7 +120,6 @@ class BetsTable extends TableWidget
                                         'Abierto' => 'Abierto',
                                         'Ganado' => 'Ganado',
                                         'Perdido' => 'Perdido',
-                                        'Nulo' => 'Nulo',
                                     ]),
                             ])
                     ])
