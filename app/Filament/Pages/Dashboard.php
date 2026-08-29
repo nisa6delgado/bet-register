@@ -62,7 +62,7 @@ class Dashboard extends BaseDashboard
                         ]),
                 ])
                 ->action(function ($data) {
-                    return redirect('?from=' . $data['from'] . '&until=' . $data['until']);
+                    return redirect('?result=' . $data['result'] . '&from=' . $data['from'] . '&until=' . $data['until']);
                 }),
 
             Action::make('create')

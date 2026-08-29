@@ -16,18 +16,39 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Url;
 use stdClass;
 
 class BetsTable extends TableWidget
 {
+    #[Url]
+    public ?string $from = null;
+
+    #[Url]
+    public ?string $until = null;
+
+    #[Url]
+    public ?string $result = null;
+
     protected int | string | array $columnSpan = 'full';
 
     protected static ?int $sort = 1;
 
     public function table(Table $table): Table
     {
+        $bets = Bet::query();
+
+        if ($this->from && $this->until) {
+            $bets->whereDate('created_at', '>=', $this->from)
+                ->whereDate('created_at', '<=', $this->until);
+        }
+
+        if ($this->result && $this->result != 'Todos') {
+            $bets->where('result', $this->result);
+        }
+
         return $table
-            ->query(fn (): Builder => Bet::query())
+            ->query(fn (): Builder => $bets)
             ->heading('Apuestas')
             ->columns([
                 TextColumn::make('#')->state(
