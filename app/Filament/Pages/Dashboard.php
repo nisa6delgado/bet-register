@@ -23,6 +23,9 @@ class Dashboard extends BaseDashboard
     #[Url]
     public ?string $until = null;
 
+    #[Url]
+    public ?string $result = 'Todos';
+
     protected function getHeaderActions(): array
     {
         return [
@@ -34,7 +37,7 @@ class Dashboard extends BaseDashboard
                 ->fillForm(fn () => [
                     'from' => $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d'),
                     'until' => $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d'),
-                    'result' => 'Todos',
+                    'result' => $this->result,
                 ])
                 ->form([
                     Grid::make(2)
