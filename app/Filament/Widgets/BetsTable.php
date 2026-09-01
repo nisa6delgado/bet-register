@@ -73,13 +73,12 @@ class BetsTable extends TableWidget
                 TextColumn::make('amount')
                     ->label('Apostado')
                     ->sortable()
-                    ->formatStateUsing(function ($state) {
-                        return number_format($state, 2);
-                    }),
+                    ->formatStateUsing(fn (string $state): string => number_format($state, 2)),
 
                 TextColumn::make('odds')
                     ->label('Cuota')
                     ->searchable()
+                    ->formatStateUsing(fn (string $state): string => number_format($state, 2))
                     ->sortable(),
 
                 TextColumn::make('revenue')

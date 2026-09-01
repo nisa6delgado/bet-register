@@ -22,7 +22,7 @@ class StatsOverview extends StatsOverviewWidget
     {
         return [
             'md' => 1,
-            'xl' => 4,
+            'xl' => 20,
         ];
     }
 
@@ -67,17 +67,36 @@ class StatsOverview extends StatsOverviewWidget
         $rate = number_format($rate, 2);
         $rate = $rate . '%';
 
+        $average = $bets->avg('odds');
+        $average = number_format($average, 2);
+
         return [
-            Stat::make('Unidades apostadas', $wagared),
-            Stat::make('Unidades ganadas', $earned),
-            Stat::make('Unidades perdidas', $losses),
-            Stat::make('Balance', $balance),
+            Stat::make('Unidades apostadas', $wagared)
+                ->columnSpan(5),
 
-            Stat::make('Apuestas realizadas', $total),
-            Stat::make('Apuestas ganadas', $winning),
-            Stat::make('Apuestas perdidas', $lost),
-            Stat::make('Porcentaje de acierto', $rate),
+            Stat::make('Unidades ganadas', $earned)
+                ->columnSpan(5),
 
+            Stat::make('Unidades perdidas', $losses)  
+                ->columnSpan(5),
+
+            Stat::make('Balance', $balance)
+                ->columnSpan(5),
+
+            Stat::make('Apuestas realizadas', $total) 
+                ->columnSpan(4),
+
+            Stat::make('Apuestas ganadas', $winning)  
+                ->columnSpan(4),
+
+            Stat::make('Apuestas perdidas', $lost)
+                ->columnSpan(4),
+
+            Stat::make('Porcentaje de acierto', $rate)
+                ->columnSpan(4),
+
+            Stat::make('Cuota promedio', $average)
+                ->columnSpan(4),
         ];
     }
 }
