@@ -63,9 +63,14 @@ class StatsOverview extends StatsOverviewWidget
 
         $total = count($bets);
 
-        $rate = $winning / $total * 100;
-        $rate = number_format($rate, 2);
-        $rate = $rate . '%';
+        if ($total && $winning) {
+            $rate = $winning / $total * 100;
+            $rate = number_format($rate, 2);
+            $rate = $rate . '%';
+            
+        } else {
+            $rate = '0%';
+        }
 
         $average = $bets->avg('odds');
         $average = number_format($average, 2);
