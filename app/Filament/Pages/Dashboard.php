@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -91,7 +92,11 @@ class Dashboard extends BaseDashboard
                                 ->numeric()
                                 ->minValue(1.01)
                                 ->required(),
-                        ])
+                        ]),
+
+                    TagsInput::make('tags')
+                        ->label('Etiquetas')
+                        ->required(),
                 ])
                 ->action(function ($data) {
                     Bet::create([

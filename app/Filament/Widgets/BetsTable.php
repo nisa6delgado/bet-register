@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use App\Models\Bet;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -132,6 +133,10 @@ class BetsTable extends TableWidget
                                     ->required(),
                             ]),
 
+                        TagsInput::make('tags')
+                            ->label('Etiquetas')
+                            ->required(),
+
                         Grid::make(2)
                             ->schema([
                                 Select::make('result')
@@ -141,7 +146,7 @@ class BetsTable extends TableWidget
                                         'Ganado' => 'Ganado',
                                         'Perdido' => 'Perdido',
                                     ]),
-                            ])
+                            ]),
                     ])
                     ->action(function ($record, array $data): void {
                         $record->update($data);
