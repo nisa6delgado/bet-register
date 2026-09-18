@@ -116,6 +116,7 @@ class BetsTable extends TableWidget
                     ->form([
                         Textarea::make('description')
                             ->label('Descripción')
+                            ->rows(4)
                             ->required(),
 
                         Grid::make(2)

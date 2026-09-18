@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bet extends Model
 {
-    //
+    protected function casts(): array
+    {
+        return [
+            'tabs' => 'array',
+        ];
+    }
 }
