@@ -9,7 +9,7 @@ class Bet extends Model
     protected function casts(): array
     {
         return [
-            'tabs' => 'array',
+            'tags' => 'array',
         ];
     }
 }

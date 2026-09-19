@@ -105,6 +105,7 @@ class Dashboard extends BaseDashboard
                         'amount' => $data['amount'],
                         'odds' => $data['odds'],
                         'result' => 'Abierto',
+                        'tabs' => $data['tabs'],
                     ]);
 
                     Notification::make()

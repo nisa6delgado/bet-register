@@ -112,6 +112,7 @@ class BetsTable extends TableWidget
                         'amount' => $record->amount,
                         'odds' => $record->odds,
                         'result' => $record->result,
+                        'tags' => $record->tags,
                     ])
                     ->form([
                         Textarea::make('description')
