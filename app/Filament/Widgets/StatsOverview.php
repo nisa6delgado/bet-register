@@ -18,6 +18,9 @@ class StatsOverview extends StatsOverviewWidget
     #[Url]
     public ?string $until = null;
 
+    #[Url]
+    public ?string $tags = null;
+
     protected function getColumns(): int | array
     {
         return [
@@ -30,6 +33,7 @@ class StatsOverview extends StatsOverviewWidget
     {
         $from = $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d');
         $until = $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d');
+        $tags = $this->tags;
         
         $wagared = 0;
         $winning = 0;
@@ -40,6 +44,9 @@ class StatsOverview extends StatsOverviewWidget
         $bets = Bet::query()
             ->whereDate('created_at', '>=', $from)
             ->whereDate('created_at', '<=', $until)
+            ->when($tags, function ($query) use ($tags) {
+                $query->whereLike('tags', '%' . $tags . '%');
+            })
             ->get();
 
         foreach ($bets as $bet) {

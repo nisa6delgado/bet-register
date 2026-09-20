@@ -105,7 +105,7 @@ class BetsTable extends TableWidget
                     ->label('Editar')
                     ->button()
                     ->icon('heroicon-o-pencil-square')
-                    ->modalWidth(Width::Medium)
+                    ->modalWidth(Width::Large)
                     ->modalSubmitActionLabel('Guardar cambios')
                     ->fillForm(fn ($record): array => [
                         'description' => $record->description,

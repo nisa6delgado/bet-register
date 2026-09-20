@@ -27,18 +27,37 @@ class Dashboard extends BaseDashboard
     #[Url]
     public ?string $result = 'Todos';
 
+    #[Url]
+    public ?string $tags = null;
+
     protected function getHeaderActions(): array
     {
+        $bets = Bet::get();
+
+        $tags = [];
+
+        foreach ($bets as $bet) {
+            if ($bet->tags) {
+                foreach ($bet->tags as $tag) {
+                    $tags[] = $tag;
+                }
+            }
+        }
+
+        $tags = array_unique($tags);
+        $tags = array_combine($tags, $tags);
+
         return [
             Action::make('filter')
                 ->label('Filtros')
                 ->icon('heroicon-o-funnel')
-                ->modalWidth(Width::Medium)
+                ->modalWidth(Width::Large)
                 ->modalSubmitActionLabel('Filtrar')
                 ->fillForm(fn () => [
                     'from' => $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d'),
                     'until' => $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d'),
                     'result' => $this->result,
+                    'tags' => $this->tags,
                 ])
                 ->form([
                     Grid::make(2)
@@ -63,16 +82,22 @@ class Dashboard extends BaseDashboard
                                     'Ganado' => 'Ganado',
                                     'Perdido' => 'Perdido',
                                 ]),
+
+                            Select::make('tags')
+                                ->label('Etiquetas')
+                                ->options($tags),
                         ]),
                 ])
                 ->action(function ($data) {
-                    return redirect('?result=' . $data['result'] . '&from=' . $data['from'] . '&until=' . $data['until']);
+                    return redirect(
+                        '?result=' . $data['result'] . '&from=' . $data['from'] . '&until=' . $data['until'] . '&tags=' . $data['tags']
+                    );
                 }),
 
             Action::make('create')
                 ->label('Registrar apuesta')
                 ->icon('heroicon-o-plus')
-                ->modalWidth(Width::Medium)
+                ->modalWidth(Width::Large)
                 ->modalSubmitActionLabel('Registar apuesta')
                 ->form([
                     Textarea::make('description')
@@ -105,7 +130,7 @@ class Dashboard extends BaseDashboard
                         'amount' => $data['amount'],
                         'odds' => $data['odds'],
                         'result' => 'Abierto',
-                        'tabs' => $data['tabs'],
+                        'tags' => $data['tags'],
                     ]);
 
                     Notification::make()
