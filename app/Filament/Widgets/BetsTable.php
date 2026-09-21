@@ -31,6 +31,9 @@ class BetsTable extends TableWidget
     #[Url]
     public ?string $result = null;
 
+    #[Url]
+    public ?string $tags = null;
+
     protected int | string | array $columnSpan = 'full';
 
     protected static ?int $sort = 1;
@@ -46,6 +49,13 @@ class BetsTable extends TableWidget
 
         if ($this->result && $this->result != 'Todos') {
             $bets->where('result', $this->result);
+        }
+
+        if ($this->tags) {
+            $tags = $this->tags;
+            $bets->when($tags, function ($query) use ($tags) {
+                $query->whereLike('tags', '%' . $tags . '%');
+            });
         }
 
         return $table
