@@ -52,10 +52,7 @@ class BetsTable extends TableWidget
         }
 
         if ($this->tags) {
-            $tags = $this->tags;
-            $bets->when($tags, function ($query) use ($tags) {
-                $query->whereLike('tags', '%' . $tags . '%');
-            });
+            $bets->whereJsonContains('tags', $this->tags);
         }
 
         return $table

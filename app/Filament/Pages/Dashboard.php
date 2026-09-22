@@ -46,6 +46,7 @@ class Dashboard extends BaseDashboard
 
         $tags = array_unique($tags);
         $tags = array_combine($tags, $tags);
+        asort($tags);
 
         return [
             Action::make('filter')
