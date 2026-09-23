@@ -86,7 +86,8 @@ class Dashboard extends BaseDashboard
 
                             Select::make('tags')
                                 ->label('Etiquetas')
-                                ->options($tags),
+                                ->options($tags)
+                                ->multiple(),
                         ]),
                 ])
                 ->action(function ($data) {

@@ -45,7 +45,12 @@ class StatsOverview extends StatsOverviewWidget
             ->whereDate('created_at', '>=', $from)
             ->whereDate('created_at', '<=', $until)
             ->when($tags, function ($query) use ($tags) {
-                $query->whereLike('tags', '%' . $tags . '%');
+                $unicode = substr(json_encode($tags), 1, -1);
+
+                $query->whereJsonContains('tags', $this->tags)
+                    ->orWhereJsonContains('tags', $unicode)
+                    ->orWhereLike('tags', '%' . $this->tags . '%')
+                    ->orWhereLike('tags', '%' . $unicode . '%');
             })
             ->get();
 

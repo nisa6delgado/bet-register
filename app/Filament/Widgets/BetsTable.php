@@ -52,7 +52,12 @@ class BetsTable extends TableWidget
         }
 
         if ($this->tags) {
-            $bets->whereJsonContains('tags', $this->tags);
+            $unicode = substr(json_encode($this->tags), 1, -1);
+
+            $bets->whereJsonContains('tags', $this->tags)
+                ->orWhereJsonContains('tags', $unicode)
+                ->orWhereLike('tags', '%' . $this->tags . '%')
+                ->orWhereLike('tags', '%' . $unicode . '%');
         }
 
         return $table
