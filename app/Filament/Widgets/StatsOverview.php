@@ -33,7 +33,8 @@ class StatsOverview extends StatsOverviewWidget
     {
         $from = $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d');
         $until = $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d');
-        $tags = $this->tags;
+
+        $tags = explode(',', $this->tags);
         
         $wagared = 0;
         $winning = 0;
@@ -43,16 +44,20 @@ class StatsOverview extends StatsOverviewWidget
 
         $bets = Bet::query()
             ->whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $until)
-            ->when($tags, function ($query) use ($tags) {
-                $unicode = substr(json_encode($tags), 1, -1);
-
-                $query->whereJsonContains('tags', $this->tags)
+            ->whereDate('created_at', '<=', $until);
+            
+        $bets->where(function ($query) use ($tags) {
+            foreach ($tags as $tag) {
+                $unicode = substr(json_encode($tag), 1, -1);
+                
+                $query->whereJsonContains('tags', $tag)
                     ->orWhereJsonContains('tags', $unicode)
-                    ->orWhereLike('tags', '%' . $this->tags . '%')
+                    ->orWhereLike('tags', '%' . $tag . '%')
                     ->orWhereLike('tags', '%' . $unicode . '%');
-            })
-            ->get();
+            }
+        });
+        
+        $bets = $bets->get();
 
         foreach ($bets as $bet) {
             $wagared += $bet->amount;

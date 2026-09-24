@@ -51,14 +51,18 @@ class BetsTable extends TableWidget
             $bets->where('result', $this->result);
         }
 
-        if ($this->tags) {
-            $unicode = substr(json_encode($this->tags), 1, -1);
-
-            $bets->whereJsonContains('tags', $this->tags)
-                ->orWhereJsonContains('tags', $unicode)
-                ->orWhereLike('tags', '%' . $this->tags . '%')
-                ->orWhereLike('tags', '%' . $unicode . '%');
-        }
+        $tags = explode(',', $this->tags);
+        
+        $bets->where(function ($query) use ($tags) {
+            foreach ($tags as $tag) {
+                $unicode = substr(json_encode($tag), 1, -1);
+                
+                $query->whereJsonContains('tags', $tag)
+                    ->orWhereJsonContains('tags', $unicode)
+                    ->orWhereLike('tags', '%' . $tag . '%')
+                    ->orWhereLike('tags', '%' . $unicode . '%');
+            }
+        });
 
         return $table
             ->query(fn (): Builder => $bets)

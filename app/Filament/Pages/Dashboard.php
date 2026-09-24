@@ -47,6 +47,8 @@ class Dashboard extends BaseDashboard
         $tags = array_unique($tags);
         $tags = array_combine($tags, $tags);
         asort($tags);
+        
+        $selectedTags = explode(',', $this->tags);
 
         return [
             Action::make('filter')
@@ -58,7 +60,7 @@ class Dashboard extends BaseDashboard
                     'from' => $this->from ?? Carbon::now()->startOfMonth()->format('Y-m-d'),
                     'until' => $this->until ?? Carbon::now()->endOfMonth()->format('Y-m-d'),
                     'result' => $this->result,
-                    'tags' => $this->tags,
+                    'tags' => $selectedTags,
                 ])
                 ->form([
                     Grid::make(2)
@@ -91,8 +93,11 @@ class Dashboard extends BaseDashboard
                         ]),
                 ])
                 ->action(function ($data) {
+                    $data['tags'] = implode(',', $data['tags']);
+                    $params = http_build_query($data);
+
                     return redirect(
-                        '?result=' . $data['result'] . '&from=' . $data['from'] . '&until=' . $data['until'] . '&tags=' . $data['tags']
+                        '?' . $params
                     );
                 }),
 
